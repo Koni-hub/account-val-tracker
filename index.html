@@ -500,6 +500,41 @@
         gap: 14px;
         flex-wrap: wrap;
       }
+      .match-history {
+        border-top: 1px solid var(--white-faint);
+        padding: 12px 20px;
+      }
+
+      .history-title {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: rgba(236, 232, 225, 0.35);
+        margin-bottom: 10px;
+      }
+
+      .history-row {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 6px 0;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+      }
+
+      .history-result {
+        width: 22px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .history-result.win {
+        color: #62dca3;
+      }
+
+      .history-result.loss {
+        color: #e05555;
+      }
 
       .match-result {
         font-family: "Teko", sans-serif;
@@ -562,22 +597,22 @@
         text-transform: uppercase;
       }
 
-      .status-badge.recently {
+      .status-badge.today {
         color: var(--online);
         background: rgba(98, 220, 163, 0.07);
         border-color: rgba(98, 220, 163, 0.35);
       }
 
-      .status-badge.away {
+      .status-badge.recent {
         color: var(--ingame);
         background: rgba(255, 204, 68, 0.07);
         border-color: rgba(255, 204, 68, 0.35);
       }
 
-      .status-badge.inactive {
-        color: var(--offline);
-        background: rgba(74, 80, 96, 0.12);
-        border-color: rgba(74, 80, 96, 0.3);
+      .status-badge.week {
+        color: #8ab4ff;
+        background: rgba(138, 180, 255, 0.07);
+        border-color: rgba(138, 180, 255, 0.35);
       }
 
       .status-dot {
@@ -781,29 +816,70 @@
         return "";
       }
 
-      function timeAgo(d) {
-        if (!d) return "—";
-        const s = Math.floor((Date.now() - new Date(d)) / 1000);
-        if (s < 60) return s + "s ago";
-        if (s < 3600) return Math.floor(s / 60) + "m ago";
-        if (s < 86400) return Math.floor(s / 3600) + "h ago";
-        return Math.floor(s / 86400) + "d ago";
-      }
+      function formatPlayedTime(dateStr) {
+          if (!dateStr) return "—";
 
-      function actStatus(d) {
-        if (!d) return "inactive";
-        const m = (Date.now() - new Date(d)) / 60000;
-        if (m < 60) return "recently";
-        if (m < 360) return "away";
+          return new Date(dateStr).toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          });
+        }
+
+      function timeAgo(date) {
+          if (!date) return "—";
+
+          const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+
+          if (diff < 60) return `${diff}s ago`;
+          if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+          if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+
+          return `${Math.floor(diff / 86400)}d ago`;
+        }
+
+        function formatPlayed(date) {
+            if (!date) return "—";
+
+            return date.toLocaleString("en-US", {
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            });
+          }
+
+     function actStatus(lastDate) {
+        if (!lastDate) return "inactive";
+
+        const hours =
+          (Date.now() - new Date(lastDate).getTime()) /
+          3600000;
+
+        if (hours <= 24) return "today";
+        if (hours <= 72) return "recent";
+        if (hours <= 168) return "week";
+
         return "inactive";
       }
 
-      function actLabel(s) {
-        return s === "recently"
-          ? "RECENTLY ACTIVE"
-          : s === "away"
-            ? "AWAY"
-            : "INACTIVE";
+      function actLabel(status) {
+        switch (status) {
+          case "today":
+            return "PLAYED TODAY";
+
+          case "recent":
+            return "PLAYED RECENTLY";
+
+          case "week":
+            return "PLAYED THIS WEEK";
+
+          default:
+            return "INACTIVE";
+        }
       }
 
       function initCards() {
@@ -829,7 +905,7 @@
           const [accD, mmrD, matchD] = await Promise.all([
             hfetch(`/valorant/v1/account/${n}/${t}`),
             hfetch(`/valorant/v1/mmr/${REGION}/${n}/${t}`),
-            hfetch(`/valorant/v3/matches/${REGION}/${n}/${t}?size=1`),
+            hfetch(`/valorant/v3/matches/${REGION}/${n}/${t}?size=3`),
           ]);
           renderCard(a, accD, mmrD, matchD);
         } catch (e) {
@@ -854,29 +930,71 @@
         const peak =
           mmr?.highest_rank?.patched_tier || mmr?.peak?.tier?.name || "—";
 
-        const match = matchD?.data?.[0] || null;
-        let matchHTML = "",
-          lastDate = null;
-        if (match) {
-          const me = (match.players?.all_players || []).find(
-            (p) =>
-              p.name?.toLowerCase() === a.name.toLowerCase() &&
-              p.tag?.toLowerCase() === a.tag.toLowerCase(),
-          );
-          const won = match.teams?.[me?.team?.toLowerCase()]?.has_won;
-          const kda = me
-            ? `${me.stats?.kills}/${me.stats?.deaths}/${me.stats?.assists}`
-            : "—";
-          const map = match.metadata?.map || "—";
-          lastDate =
-            match.metadata?.game_start_patched ||
-            match.metadata?.game_start ||
-            null;
-          matchHTML = `<div class="last-match">
-      <div class="match-result ${won ? "win" : "loss"}">${won ? "WIN" : "LOSS"}</div>
-      <span class="match-detail">${map} · ${kda}</span>
-      <span class="match-ago">${timeAgo(lastDate)}</span>
-    </div>`;
+        const matches = matchD?.data || [];
+        const latestMatch = matches[0] || null;
+        let lastDate = null;
+        let matchHTML = "";
+
+        if (matches.length) {
+          lastDate = latestMatch.metadata?.game_start
+            ? new Date(latestMatch.metadata.game_start * 1000)
+            : null;
+
+          const rows = matches
+            .map((match) => {
+
+              console.log("MATCH");
+              console.log({
+                game_start: match.metadata?.game_start,
+                game_start_patched: match.metadata?.game_start_patched,
+                started_at: match.metadata?.started_at,
+                metadata: match.metadata,
+              });
+
+              const me = (match.players?.all_players || []).find(
+                (p) =>
+                  p.name?.toLowerCase() === a.name.toLowerCase() &&
+                  p.tag?.toLowerCase() === a.tag.toLowerCase(),
+              );
+
+              const won = match.teams?.[me?.team?.toLowerCase()]?.has_won;
+
+              const map = match.metadata?.map || "Unknown";
+
+              const kda = me
+                ? `${me.stats?.kills}/${me.stats?.deaths}/${me.stats?.assists}`
+                : "—";
+
+              const agent = me?.character || "Unknown";
+
+              const played = match.metadata?.game_start
+                ? new Date(match.metadata.game_start * 1000)
+                : null;
+
+              return `
+      <div class="history-row">
+        <span class="history-result ${won ? "win" : "loss"}">
+          ${won ? "W" : "L"}
+        </span>
+
+        <span>${map}</span>
+        <span>${agent}</span>
+        <span>${kda}</span>
+        <span>${formatPlayed(played)}</span>
+      </div>
+    `;
+            })
+            .join("");
+
+          matchHTML = `
+    <div class="match-history">
+      <div class="history-title">
+        LAST 3 MATCHES
+      </div>
+
+      ${rows}
+    </div>
+  `;
         }
 
         const st = actStatus(lastDate);
@@ -894,7 +1012,6 @@
         <div class="card-stats">
           <div class="stat-block"><div class="stat-label">RANK</div><div class="stat-value ${rankClass(tier)}">${tier}</div></div>
           <div class="stat-block"><div class="stat-label">RR</div><div class="stat-value">${rr !== "—" ? rr + " RR" : "—"}</div></div>
-          <div class="stat-block"><div class="stat-label">PEAK</div><div class="stat-value ${rankClass(peak)}">${peak}</div></div>
         </div>
       </div>
       <div class="card-status">
@@ -919,15 +1036,14 @@
       }
 
       setInterval(() => {
-        const n = new Date();
-        document.getElementById("clock").textContent = [
-          n.getHours(),
-          n.getMinutes(),
-          n.getSeconds(),
-        ]
-          .map((x) => x.toString().padStart(2, "0"))
-          .join(":");
-      }, 1000);
+          document.getElementById("clock").textContent =
+            new Date().toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: true,
+            });
+        }, 1000);
 
       initCards();
 
