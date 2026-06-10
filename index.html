@@ -730,12 +730,637 @@
           transform: scale(0.7);
         }
       }
+
+      /* ===== LOGIN OVERLAY ===== */
+      .login-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.4s ease both;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .login-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 40px 36px 36px;
+        width: 380px;
+        max-width: 92vw;
+        clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+        position: relative;
+      }
+
+      .login-panel::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-style: solid;
+        border-width: 0 18px 18px 0;
+        border-color: transparent var(--bg) transparent transparent;
+      }
+
+      .login-title {
+        font-family: "Teko", sans-serif;
+        font-size: 42px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-bottom: 2px;
+      }
+
+      .login-title span {
+        color: var(--red);
+      }
+
+      .login-sub {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        color: var(--white-dim);
+        letter-spacing: 3px;
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .login-field {
+        margin-bottom: 16px;
+      }
+
+      .login-label {
+        display: block;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        color: var(--red);
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+      }
+
+      .login-select {
+        width: 100%;
+        background: var(--bg3);
+        border: 1px solid var(--border-soft);
+        color: var(--white);
+        font-family: "Rajdhani", sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 10px 12px;
+        outline: none;
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+        cursor: pointer;
+        transition: border-color 0.2s;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ece8e1' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 36px;
+      }
+
+      .login-select:focus {
+        border-color: rgba(255, 70, 85, 0.5);
+      }
+
+      .login-select option {
+        background: var(--bg3);
+        color: var(--white);
+      }
+
+      .login-input {
+        width: 100%;
+        background: var(--bg3);
+        border: 1px solid var(--border-soft);
+        color: var(--white);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 14px;
+        padding: 10px 12px;
+        outline: none;
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+        transition: border-color 0.2s;
+        letter-spacing: 2px;
+      }
+
+      .login-input:focus {
+        border-color: rgba(255, 70, 85, 0.5);
+      }
+
+      .login-input::placeholder {
+        color: rgba(236, 232, 225, 0.15);
+      }
+
+      .login-error {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: #e05555;
+        letter-spacing: 1px;
+        min-height: 18px;
+        margin-bottom: 4px;
+      }
+
+      .login-btn {
+        width: 100%;
+        background: var(--red);
+        color: var(--white);
+        border: none;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 3px;
+        padding: 12px 0;
+        cursor: pointer;
+        clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+        transition: background 0.2s;
+        text-transform: uppercase;
+      }
+
+      .login-btn:hover {
+        background: #cc2233;
+      }
+
+      /* ===== SESSION BAR ===== */
+      .session-bar {
+        position: relative;
+        z-index: 2;
+        background: var(--panel);
+        border-bottom: 1px solid var(--border);
+        padding: 10px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        animation: fadeDown 0.4s ease both;
+      }
+
+      .session-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: var(--white-dim);
+        letter-spacing: 1px;
+      }
+
+      .session-greeting {
+        color: var(--white);
+      }
+
+      .session-greeting strong {
+        color: var(--red);
+        font-weight: 600;
+      }
+
+      .session-divider {
+        color: rgba(236, 232, 225, 0.15);
+      }
+
+      .session-meta {
+        color: rgba(236, 232, 225, 0.5);
+      }
+
+      .session-logout {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--white-dim);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        padding: 5px 14px;
+        cursor: pointer;
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+        text-transform: uppercase;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+
+      .session-logout:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      /* ===== PLAY SECTION ===== */
+      .play-section {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 20px 24px;
+        margin-bottom: 28px;
+        clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        animation: fadeUp 0.4s 0.15s ease both;
+        position: relative;
+      }
+
+      .play-section::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-style: solid;
+        border-width: 0 16px 16px 0;
+        border-color: transparent var(--bg) transparent transparent;
+      }
+
+      .play-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .play-prompt {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: var(--white);
+      }
+
+      .play-prompt span {
+        color: var(--red);
+      }
+
+      .play-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .play-timer {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 28px;
+        color: var(--online);
+        letter-spacing: 3px;
+        min-width: 90px;
+        text-align: center;
+      }
+
+      .play-btn {
+        background: var(--online);
+        color: #0f1118;
+        border: none;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 10px 24px;
+        cursor: pointer;
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+
+      .play-btn:hover {
+        background: #4bcb8a;
+      }
+
+      .play-btn.playing {
+        background: #e05555;
+        color: var(--white);
+      }
+
+      .play-btn.playing:hover {
+        background: #cc2233;
+      }
+
+      /* ===== LIVE PLAYERS PANEL ===== */
+      .live-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        margin-bottom: 28px;
+        clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+        animation: fadeUp 0.4s 0.2s ease both;
+        position: relative;
+      }
+
+      .live-panel::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-style: solid;
+        border-width: 0 16px 16px 0;
+        border-color: transparent var(--bg) transparent transparent;
+      }
+
+      .live-header {
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--white-faint);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 3px;
+        color: var(--white-dim);
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .live-header .live-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--online);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      .live-body {
+        padding: 8px 20px;
+      }
+
+      .live-player-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--white-faint);
+      }
+
+      .live-player-item:last-child {
+        border-bottom: none;
+      }
+
+      .live-player-item .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--online);
+        flex-shrink: 0;
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      .live-name {
+        font-family: "Teko", sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: var(--white);
+        flex: 1;
+      }
+
+      .live-name.live-me-name {
+        color: var(--red);
+      }
+
+      .live-time {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 18px;
+        color: var(--online);
+        letter-spacing: 2px;
+        min-width: 80px;
+        text-align: right;
+      }
+
+      .live-stop-small {
+        background: transparent;
+        border: 1px solid rgba(224, 85, 85, 0.4);
+        color: #e05555;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        cursor: pointer;
+        clip-path: polygon(4px 0, 100% 0, 100% 100%, 0 100%, 0 4px);
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+
+      .live-stop-small:hover {
+        background: rgba(224, 85, 85, 0.15);
+      }
+
+      .live-empty {
+        padding: 20px 0;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: rgba(236, 232, 225, 0.25);
+        letter-spacing: 1px;
+        text-align: center;
+      }
+
+      /* ===== ACCOUNT SELECTOR MODAL ===== */
+      .account-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1100;
+        background: rgba(15, 17, 24, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.2s ease both;
+      }
+
+      .account-modal-overlay.show {
+        display: flex;
+      }
+
+      .account-modal {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 32px;
+        width: 400px;
+        max-width: 92vw;
+        clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+        position: relative;
+      }
+
+      .account-modal::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-style: solid;
+        border-width: 0 18px 18px 0;
+        border-color: transparent var(--bg) transparent transparent;
+      }
+
+      .account-modal-title {
+        font-family: "Teko", sans-serif;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+      }
+
+      .account-modal-title span {
+        color: var(--red);
+      }
+
+      .account-modal-sub {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 10px;
+        color: var(--white-dim);
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+      }
+
+      .account-option {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        background: var(--bg3);
+        border: 1px solid var(--border-soft);
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-bottom: 10px;
+      }
+
+      .account-option:hover {
+        border-color: rgba(255, 70, 85, 0.4);
+        background: rgba(255, 70, 85, 0.05);
+      }
+
+      .account-option.in-use {
+        opacity: 0.35;
+        cursor: not-allowed;
+        border-color: var(--border-soft);
+      }
+
+      .account-option.in-use:hover {
+        border-color: var(--border-soft);
+        background: var(--bg3);
+      }
+
+      .account-option-name {
+        font-family: "Teko", sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: var(--white);
+        flex: 1;
+      }
+
+      .account-option-tag {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        color: var(--red);
+        letter-spacing: 1px;
+      }
+
+      .account-option-status {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 9px;
+        color: #e05555;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .account-modal-cancel {
+        display: block;
+        width: 100%;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--white-dim);
+        font-family: "Share Tech Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 2px;
+        padding: 10px 0;
+        cursor: pointer;
+        clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+        text-transform: uppercase;
+        transition: all 0.2s;
+        margin-top: 4px;
+      }
+
+      .account-modal-cancel:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      /* Valorant account card status override */
+      .card-availability {
+        font-family: "Share Tech Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        clip-path: polygon(4px 0, 100% 0, 100% 100%, 0 100%, 0 4px);
+        margin-left: 12px;
+      }
+
+      .card-availability.available {
+        color: var(--online);
+        border: 1px solid rgba(98, 220, 163, 0.3);
+        background: rgba(98, 220, 163, 0.06);
+      }
+
+      .card-availability.in-use {
+        color: #e05555;
+        border: 1px solid rgba(224, 85, 85, 0.3);
+        background: rgba(224, 85, 85, 0.06);
+      }
     </style>
   </head>
 
   <body>
     <div class="scanline"></div>
-    <div class="wrapper">
+
+    <!-- LOGIN OVERLAY -->
+    <div class="login-overlay" id="loginOverlay">
+      <div class="login-panel">
+        <div class="login-title">VAL<span>TRACK</span></div>
+        <div class="login-sub">AUTHENTICATION REQUIRED</div>
+
+        <div class="login-field">
+          <label class="login-label">SELECT USER</label>
+          <select class="login-select" id="usernameSelect">
+            <option value="" disabled selected>— CHOOSE —</option>
+            <option value="Arvin">Arvin</option>
+            <option value="Ronnel">Ronnel</option>
+            <option value="Ivan">Ivan</option>
+            <option value="Thomas">Thomas</option>
+          </select>
+        </div>
+
+        <div class="login-field">
+          <label class="login-label">PASSWORD</label>
+          <input class="login-input" id="passwordInput" type="password" placeholder="********" maxlength="20" />
+        </div>
+
+        <div class="login-error" id="loginError"></div>
+
+        <button class="login-btn" id="loginBtn" onclick="handleLogin()">
+          ▸ AUTHENTICATE
+        </button>
+      </div>
+    </div>
+
+    <!-- ACCOUNT SELECTOR MODAL -->
+    <div class="account-modal-overlay" id="accountModal">
+      <div class="account-modal">
+        <div class="account-modal-title">SELECT <span>ACCOUNT</span></div>
+        <div class="account-modal-sub">Which Valorant account will you use?</div>
+        <div id="accountOptions"></div>
+        <button class="account-modal-cancel" onclick="closeAccountModal()">↻ CANCEL</button>
+      </div>
+    </div>
+
+    <!-- SESSION BAR -->
+    <div class="session-bar" id="sessionBar" style="display:none">
+      <div class="session-info">
+        <span class="session-greeting">Hello, <strong id="sessionUser"></strong></span>
+        <span class="session-divider">|</span>
+        <span class="session-meta">IP: <span id="sessionIP">—</span></span>
+        <span class="session-divider">|</span>
+        <span class="session-meta">Device: <span id="sessionDevice">—</span></span>
+        <span class="session-divider">|</span>
+        <span class="session-meta">OS: <span id="sessionOS">—</span></span>
+      </div>
+      <button class="session-logout" onclick="handleLogout()">⏻ LOGOUT</button>
+    </div>
+
+    <div class="wrapper" id="mainWrapper" style="display:none">
       <header>
         <div class="logo">
           <div class="logo-label">// Henrik API · Live Data</div>
@@ -747,6 +1372,25 @@
           <div>2 ACCOUNTS</div>
         </div>
       </header>
+
+      <!-- PLAY SECTION -->
+      <div class="play-section" id="playSection">
+        <div class="play-row">
+          <div class="play-prompt"><span id="playUser"></span>, do you want to play?</div>
+          <div class="play-actions">
+            <div class="play-timer" id="playTimer">--:--</div>
+            <button class="play-btn" id="playBtn" onclick="togglePlay()">▸ PLAY</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE PLAYERS -->
+      <div class="live-panel" id="livePanel">
+        <div class="live-header"><span class="live-dot"></span> Now Playing</div>
+        <div class="live-body" id="livePlayersContainer">
+          <div class="live-empty">No one is currently playing</div>
+        </div>
+      </div>
 
       <div class="section-label">
         <span>Tracked Players</span>
@@ -764,6 +1408,278 @@
     </div>
 
     <script>
+      // ===== LOGIN SYSTEM =====
+      const USERS = {
+        Arvin: "123",
+        Ronnel: "456",
+        Ivan: "789",
+        Thomas: "000",
+      };
+
+      function getIP() {
+        const rtc = new RTCPeerConnection({ iceServers: [] });
+        rtc.createDataChannel("");
+        rtc.createOffer().then((o) => rtc.setLocalDescription(o));
+        rtc.onicecandidate = (e) => {
+          if (!e.candidate) return;
+          const match = /([0-9]{1,3}\.){3}[0-9]{1,3}/.exec(e.candidate.candidate);
+          if (match) {
+            const ip = match[0];
+            document.getElementById("sessionIP").textContent = ip;
+            sessionStorage.setItem("user_ip", ip);
+          }
+        };
+      }
+
+      function getDeviceInfo() {
+        const ua = navigator.userAgent;
+        let device = "Desktop";
+        if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) device = "Mobile";
+        else if (/Tablet|iPad/i.test(ua)) device = "Tablet";
+
+        let os = "Unknown";
+        if (/Windows NT 10/.test(ua)) os = "Windows 10";
+        else if (/Windows NT 11/.test(ua)) os = "Windows 11";
+        else if (/Mac OS X/.test(ua)) os = "macOS";
+        else if (/Android/.test(ua)) os = "Android";
+        else if (/iOS|iPhone|iPad/.test(ua)) os = "iOS";
+        else if (/Linux/.test(ua)) os = "Linux";
+
+        const browser = /Chrome/.test(ua) ? "Chrome" : /Firefox/.test(ua) ? "Firefox" : /Safari/.test(ua) ? "Safari" : /Edge/.test(ua) ? "Edge" : "Other";
+
+        document.getElementById("sessionDevice").textContent = device + " · " + browser;
+        document.getElementById("sessionOS").textContent = os;
+      }
+
+      function handleLogin() {
+        const username = document.getElementById("usernameSelect").value;
+        const password = document.getElementById("passwordInput").value;
+        const errEl = document.getElementById("loginError");
+
+        if (!username) {
+          errEl.textContent = "▸ SELECT A USER";
+          return;
+        }
+        if (!password) {
+          errEl.textContent = "▸ ENTER PASSWORD";
+          return;
+        }
+
+        if (USERS[username] !== password) {
+          errEl.textContent = "▸ INVALID PASSWORD";
+          return;
+        }
+
+        errEl.textContent = "";
+        sessionStorage.setItem("logged_in", "true");
+        sessionStorage.setItem("username", username);
+        enterSession(username);
+      }
+
+      function enterSession(username) {
+        document.getElementById("loginOverlay").style.display = "none";
+        document.getElementById("mainWrapper").style.display = "block";
+        document.getElementById("sessionBar").style.display = "flex";
+        document.getElementById("sessionUser").textContent = username;
+        getIP();
+        getDeviceInfo();
+      }
+
+      function handleLogout() {
+        sessionStorage.removeItem("logged_in");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("user_ip");
+        document.getElementById("loginOverlay").style.display = "flex";
+        document.getElementById("mainWrapper").style.display = "none";
+        document.getElementById("sessionBar").style.display = "none";
+        document.getElementById("passwordInput").value = "";
+        document.getElementById("usernameSelect").value = "";
+        document.getElementById("loginError").textContent = "";
+      }
+
+      // ===== PLAY SYSTEM =====
+      const PLAY_KEY = "valtrack_playing";
+      let playChannel = null;
+
+      function syncAll() {
+        renderLivePlayers();
+        updateCardAvailability();
+      }
+
+      try {
+        playChannel = new BroadcastChannel("valtrack_play");
+        playChannel.onmessage = () => syncAll();
+      } catch (e) { /* BroadcastChannel not supported */ }
+
+      function getPlayingUsers() {
+        try { return JSON.parse(localStorage.getItem(PLAY_KEY) || "[]"); }
+        catch { return []; }
+      }
+
+      function setPlayingUsers(users) {
+        localStorage.setItem(PLAY_KEY, JSON.stringify(users));
+        if (playChannel) playChannel.postMessage("update");
+        syncAll();
+      }
+
+      function togglePlay() {
+        const username = sessionStorage.getItem("username");
+        const users = getPlayingUsers();
+        if (users.find(u => u.username === username)) {
+          setPlayingUsers(users.filter(u => u.username !== username));
+          updatePlayBtn();
+        } else {
+          showAccountModal();
+        }
+      }
+
+      function getAccountLabel(acct) {
+        return acct.name + " #" + acct.tag;
+      }
+
+      function showAccountModal() {
+        const modal = document.getElementById("accountModal");
+        const container = document.getElementById("accountOptions");
+        const users = getPlayingUsers();
+        container.innerHTML = ACCOUNTS.map(a => {
+          const inUse = users.find(u => u.accountName === a.name && u.accountTag === a.tag);
+          const by = inUse ? inUse.username : null;
+          return `<div class="account-option ${inUse ? "in-use" : ""}" onclick="${inUse ? "" : "selectAccount('" + a.name + "','" + a.tag + "')"}">
+            <div>
+              <div class="account-option-name">${a.name}</div>
+              <div class="account-option-tag">#${a.tag}</div>
+            </div>
+            ${inUse ? '<span class="account-option-status">IN USE — ' + by + '</span>' : '<span class="account-option-status" style="color:var(--online)">AVAILABLE</span>'}
+          </div>`;
+        }).join("");
+        modal.classList.add("show");
+      }
+
+      function closeAccountModal() {
+        document.getElementById("accountModal").classList.remove("show");
+      }
+
+      function selectAccount(accountName, accountTag) {
+        const username = sessionStorage.getItem("username");
+        const users = getPlayingUsers();
+        users.push({ username, accountName, accountTag, startTime: Date.now() });
+        setPlayingUsers(users);
+        closeAccountModal();
+        updatePlayBtn();
+      }
+
+      function updatePlayBtn() {
+        const username = sessionStorage.getItem("username");
+        const users = getPlayingUsers();
+        const btn = document.getElementById("playBtn");
+        const timer = document.getElementById("playTimer");
+        const me = users.find(u => u.username === username);
+        if (me) {
+          btn.textContent = "■ STOP";
+          btn.classList.add("playing");
+          const elapsed = Math.floor((Date.now() - me.startTime) / 1000);
+          const mins = Math.floor(elapsed / 60);
+          const secs = elapsed % 60;
+          timer.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+        } else {
+          btn.textContent = "▸ PLAY";
+          btn.classList.remove("playing");
+          timer.textContent = "--:--";
+        }
+      }
+
+      function renderLivePlayers() {
+        const users = getPlayingUsers();
+        const container = document.getElementById("livePlayersContainer");
+        const myUser = sessionStorage.getItem("username");
+        if (!container) return;
+
+        if (users.length === 0) {
+          container.innerHTML = '<div class="live-empty">No one is currently playing</div>';
+          return;
+        }
+
+        container.innerHTML = users.map(u => {
+          const elapsed = Math.floor((Date.now() - u.startTime) / 1000);
+          const mins = Math.floor(elapsed / 60);
+          const secs = elapsed % 60;
+          const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+          const isMe = u.username === myUser;
+          const acctLabel = u.accountName ? u.accountName + " #" + u.accountTag : "—";
+          return `<div class="live-player-item">
+            <span class="live-dot"></span>
+            <div>
+              <div class="live-name ${isMe ? "live-me-name" : ""}">${u.username}</div>
+              <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(236,232,225,0.35);letter-spacing:1px">${acctLabel}</div>
+            </div>
+            <span class="live-time">${timeStr}</span>
+            ${isMe ? '<button class="live-stop-small" onclick="togglePlay()">STOP</button>' : ''}
+          </div>`;
+        }).join("");
+
+        updatePlayBtn();
+      }
+
+      function updateCardAvailability() {
+        ACCOUNTS.forEach(a => {
+          const el = document.getElementById("card-" + a.id);
+          if (!el) return;
+          const badge = el.querySelector(".card-availability");
+          if (!badge) return;
+          const av = getAcctAvailability(a.name, a.tag);
+          badge.className = "card-availability " + av.status;
+          badge.textContent = av.label;
+        });
+      }
+
+      // Live play timer tick
+      setInterval(() => {
+        renderLivePlayers();
+        updateCardAvailability();
+      }, 1000);
+
+      // Cross-tab sync via storage event
+      window.addEventListener("storage", (e) => {
+        if (e.key === PLAY_KEY) syncAll();
+      });
+
+      const origEnterSession = enterSession;
+      enterSession = function(username) {
+        origEnterSession(username);
+        document.getElementById("playUser").textContent = username;
+        syncAll();
+        updatePlayBtn();
+      };
+
+      // Update play section when entering session
+      const origHandleLogout = handleLogout;
+      handleLogout = function() {
+        const myUser = sessionStorage.getItem("username");
+        if (myUser) {
+          const users = getPlayingUsers().filter(u => u.username !== myUser);
+          setPlayingUsers(users);
+        }
+        origHandleLogout();
+      };
+
+      // Check session on load
+      (function() {
+        if (sessionStorage.getItem("logged_in") === "true") {
+          const user = sessionStorage.getItem("username");
+          if (user && USERS[user]) {
+            enterSession(user);
+          }
+        }
+      })();
+
+      // Allow Enter key to submit
+      document.getElementById("passwordInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleLogin();
+      });
+      document.getElementById("usernameSelect").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") handleLogin();
+      });
+
       const ACCOUNTS = [
         { name: "依神 紫苑", tag: "yuji", id: 0 },
         { name: "コニ先輩", tag: "6969", id: 1 },
@@ -914,6 +1830,13 @@
         }
       }
 
+      function getAcctAvailability(acctName, acctTag) {
+        const users = getPlayingUsers();
+        const found = users.find(u => u.accountName === acctName && u.accountTag === acctTag);
+        if (found) return { status: "in-use", label: "IN USE — " + found.username, elapsed: Date.now() - found.startTime };
+        return { status: "available", label: "AVAILABLE", elapsed: null };
+      }
+
       function renderCard(a, accD, mmrD, matchD) {
         const card = document.getElementById("card-" + a.id);
         const acc = accD?.data;
@@ -921,6 +1844,7 @@
           card.innerHTML = `<div class="card-message">⚠ ${accD?.errors?.[0]?.message || "Player not found — check name/tag"}</div>`;
           return;
         }
+        const av = getAcctAvailability(a.name, a.tag);
         const img = acc.card?.large || acc.card?.small || null;
         const level = acc.account_level || "?";
         const mmr = mmrD?.data;
@@ -1006,7 +1930,7 @@
           : `<div class="player-banner-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#ECE8E1" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#ECE8E1" stroke-width="1.5" stroke-linecap="round"/></svg></div>`
       }
       <div class="card-body">
-        <div class="player-name">${a.name}</div>
+        <div class="player-name">${a.name} <span class="card-availability ${av.status}">${av.label}</span></div>
         <div class="player-tag">#${a.tag}</div>
         <div class="player-level">LVL ${level}</div>
         <div class="card-stats">
